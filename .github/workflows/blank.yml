@@ -1,0 +1,23 @@
+name: Update Index HTML
+
+on:
+  repository_dispatch:
+    types: [update_index_html]
+
+jobs:
+  update-html:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Update index.html
+        run: |
+          URL=${{ github.event.client_payload.url }}
+          sed -i "s|<a href=.*>Link to Website</a>|<a href=\"$URL\">Link to Website</a>|" path/to/your/index.html
+          
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'path/to/your/index.html'
+          message: 'Update index.html with new container app URL'
